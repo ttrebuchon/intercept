@@ -1,0 +1,221 @@
+﻿{
+  "configurations": [
+    {
+      "name": "x64-Debug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "USE_64BIT_BUILD",
+          "value": "True",
+          "type": "BOOL"
+        },
+        {
+          "name": "OVERRIDE_STATIC_STDLIB",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "USE_STATIC_LINKING",
+          "value": "true",
+          "type": "BOOL"
+        },
+        {
+          "name": "CLIENT_ONLY",
+          "value": "False",
+          "type": "BOOL"
+        }
+      ]
+    },
+    {
+      "name": "x86-Debug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x86" ]
+    },
+    {
+      "name": "x64-Debug-Dynamic",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "variables": [
+        {
+          "name": "USE_64BIT_BUILD",
+          "value": "True",
+          "type": "BOOL"
+        },
+        {
+          "name": "USE_STATIC_LINKING",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "DEVEL",
+          "value": "True",
+          "type": "BOOL"
+        }
+      ]
+    },
+    {
+      "name": "x86-Debug-Dynamic",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x86" ],
+      "variables": [
+        {
+          "name": "USE_64BIT_BUILD",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "USE_STATIC_LINKING",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "DEVEL",
+          "value": "True",
+          "type": "BOOL"
+        }
+      ]
+    },
+    {
+      "name": "x86-Debug-Static-Client",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x86" ],
+      "variables": [
+        {
+          "name": "USE_64BIT_BUILD",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "OVERRIDE_STATIC_STDLIB",
+          "value": "True",
+          "type": "BOOL"
+        },
+        {
+          "name": "USE_STATIC_LINKING",
+          "value": "true",
+          "type": "BOOL"
+        },
+        {
+          "name": "CLIENT_ONLY",
+          "value": "True",
+          "type": "BOOL"
+        }
+      ]
+    },
+    {
+      "name": "x64-Debug-Static-Client",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "variables": [
+        {
+          "name": "USE_64BIT_BUILD",
+          "value": "True",
+          "type": "BOOL"
+        },
+        {
+          "name": "OVERRIDE_STATIC_STDLIB",
+          "value": "True",
+          "type": "BOOL"
+        },
+        {
+          "name": "USE_STATIC_LINKING",
+          "value": "true",
+          "type": "BOOL"
+        },
+        {
+          "name": "CLIENT_ONLY",
+          "value": "True",
+          "type": "BOOL"
+        }
+      ]
+    },
+    {
+      "name": "x64-Release",
+      "generator": "Ninja",
+      "configurationType": "Release",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "variables": [
+        {
+          "name": "USE_64BIT_BUILD",
+          "value": "True",
+          "type": "BOOL"
+        },
+        {
+          "name": "OVERRIDE_STATIC_STDLIB",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "USE_STATIC_LINKING",
+          "value": "true",
+          "type": "BOOL"
+        },
+        {
+          "name": "CLIENT_ONLY",
+          "value": "False",
+          "type": "BOOL"
+        }
+      ]
+    },
+    {
+      "name": "x86-Release",
+      "generator": "Ninja",
+      "configurationType": "Release",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x86" ],
+      "variables": [
+        {
+          "name": "OVERRIDE_STATIC_STDLIB",
+          "value": "False",
+          "type": "BOOL"
+        }
+      ]
+    }
+  ]
+}

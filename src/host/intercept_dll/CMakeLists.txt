@@ -51,21 +51,39 @@ if((CMAKE_CXX_COMPILER_ID MATCHES "Clang") OR (CMAKE_CXX_COMPILER_ID MATCHES "GN
 	find_package (Threads)
 	target_link_libraries (${INTERCEPT_EXTENSION_NAME} ${CMAKE_THREAD_LIBS_INIT})
 else()
-	target_compile_options(
-		${INTERCEPT_EXTENSION_NAME} PRIVATE 
-		"/MP" "/Zi" "/EHsc"
-		"$<$<CONFIG:Release>:/MT>"
-		"$<$<CONFIG:Debug>:/MTd>"
-		"$<$<CONFIG:Release>:/Ox>"
-		"$<$<CONFIG:Release>:/Ob2>"
-		"$<$<CONFIG:Debug>:/Ob0>"
-		"$<$<CONFIG:Release>:/Oi>"
-		"$<$<CONFIG:Debug>:/Od>"
-		"$<$<CONFIG:Debug>:/RTC1>"
-		"$<$<CONFIG:Release>:/Ot>"
-		"$<$<CONFIG:Release>:/DNDEBUG>"
-		"$<$<CONFIG:Debug>:/D_DEBUG>"
-	)
+	if(${USE_STATIC_LINKING})
+        target_compile_options(
+		    ${INTERCEPT_EXTENSION_NAME} PRIVATE 
+		    "/MP" "/Zi" "/EHsc"
+		    "$<$<CONFIG:Release>:/MT>"
+		    "$<$<CONFIG:Debug>:/MTd>"
+		    "$<$<CONFIG:Release>:/Ox>"
+		    "$<$<CONFIG:Release>:/Ob2>"
+		    "$<$<CONFIG:Debug>:/Ob0>"
+		    "$<$<CONFIG:Release>:/Oi>"
+		    "$<$<CONFIG:Debug>:/Od>"
+		    "$<$<CONFIG:Debug>:/RTC1>"
+		    "$<$<CONFIG:Release>:/Ot>"
+		    "$<$<CONFIG:Release>:/DNDEBUG>"
+		    "$<$<CONFIG:Debug>:/D_DEBUG>"
+	    )
+    else()
+        target_compile_options(
+		    ${INTERCEPT_EXTENSION_NAME} PRIVATE 
+		    "/MP" "/Zi" "/EHsc"
+		    "$<$<CONFIG:Release>:/MD>"
+		    "$<$<CONFIG:Debug>:/MDd>"
+		    "$<$<CONFIG:Release>:/Ox>"
+		    "$<$<CONFIG:Release>:/Ob2>"
+		    "$<$<CONFIG:Debug>:/Ob0>"
+		    "$<$<CONFIG:Release>:/Oi>"
+		    "$<$<CONFIG:Debug>:/Od>"
+		    "$<$<CONFIG:Debug>:/RTC1>"
+		    "$<$<CONFIG:Release>:/Ot>"
+		    "$<$<CONFIG:Release>:/DNDEBUG>"
+		    "$<$<CONFIG:Debug>:/D_DEBUG>"
+	    )
+    endif()
 	target_link_options(${INTERCEPT_EXTENSION_NAME} PRIVATE "/OPT:REF" "/OPT:ICF" "/DEBUG:FULL") 
 endif()
 

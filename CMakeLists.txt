@@ -12,6 +12,8 @@ endif()
 
 option(USE_64BIT_BUILD "USE_64BIT_BUILD" OFF)
 option(USE_STATIC_LINKING "USE_STATIC_LINKING" ON)
+option(OVERRIDE_STATIC_STDLIB "OVERRIDE_STATIC_STDLIB" ON)
+option(CLIENT_ONLY "CLIENT_ONLY" OFF)
 
 if(USE_STATIC_LINKING)
     message("WARNING: Linking statically")
@@ -48,7 +50,9 @@ SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 
-add_subdirectory(src/host)
+if (NOT ${CLIENT_ONLY})
+    add_subdirectory(src/host)
+endif()
 add_subdirectory(src/client)
 
 #set(INTERCEPT_EXAMPLE_SRC "Z:/intercept-examples")

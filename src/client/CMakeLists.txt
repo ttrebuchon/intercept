@@ -9,6 +9,7 @@ endif()
 
 option(DEVEL "DEVEL" ON)
 option(USE_STATIC_LINKING "USE_STATIC_LINKING" ON)
+option(OVERRIDE_STATIC_STDLIB "OVERRIDE_STATIC_STDLIB" OFF)
 
 
 if((CMAKE_CXX_COMPILER_ID MATCHES "Clang") OR (CMAKE_CXX_COMPILER_ID MATCHES "GNU"))
@@ -16,11 +17,20 @@ if((CMAKE_CXX_COMPILER_ID MATCHES "Clang") OR (CMAKE_CXX_COMPILER_ID MATCHES "GN
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
     set(CMAKE_SHARED_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 else()
-    set(CMAKE_CXX_FLAGS_DEBUG "/D _DEBUG /MTd /Zi /Ob0 /Od /RTC1 /EHsc")
-    set(CMAKE_CXX_FLAGS_MINSIZEREL     "/MT /Ox /Ob1 /D /EHsc NDEBUG")
-    set(CMAKE_CXX_FLAGS_RELEASE       "/MT /Ox /Ob2 /D /EHsc NDEBUG")
-    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/MT /Zi /Ox /Ob2 /D /EHsc NDEBUG")
+    if(${USE_STATIC_LINKING} AND NOT ${OVERRIDE_STATIC_STDLIB})
+        set(CMAKE_CXX_FLAGS_DEBUG "/D _DEBUG /MTd /Zi /Ob0 /Od /RTC1 /EHsc")
+        set(CMAKE_CXX_FLAGS_MINSIZEREL     "/MT /Ox /Ob1 /D /EHsc NDEBUG")
+        set(CMAKE_CXX_FLAGS_RELEASE       "/MT /Ox /Ob2 /D /EHsc NDEBUG")
+        set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/MT /Zi /Ox /Ob2 /D /EHsc NDEBUG")
+    else()
+        set(CMAKE_CXX_FLAGS_DEBUG "/D _DEBUG /MDd /Zi /Ob0 /Od /RTC1 /EHsc")
+        set(CMAKE_CXX_FLAGS_MINSIZEREL     "/MD /Ox /Ob1 /D /EHsc NDEBUG")
+        set(CMAKE_CXX_FLAGS_RELEASE       "/MD /Ox /Ob2 /D /EHsc NDEBUG")
+        set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/MD /Zi /Ox /Ob2 /D /EHsc NDEBUG")
+    endif()
 endif()
+message("DEBUG FLAGS: ${CMAKE_CXX_FLAGS_DEBUG}")
+message("RELEASE FLAGS: ${CMAKE_CXX_FLAGS_RELEASE}")
 include_directories("intercept")
 
 
