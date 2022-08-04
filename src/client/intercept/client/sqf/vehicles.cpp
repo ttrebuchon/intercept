@@ -318,7 +318,7 @@ namespace intercept {
             return __helpers::__number_unary_object(__sqf::unary__getobjectdlc__object__ret__scalar, value_);
         }
 
-        float get_object_type(const object &value_) {
+        int get_object_type(const object &value_) {
             return __helpers::__number_unary_object(__sqf::unary__getobjecttype__object__ret__scalar, value_);
         }
 
@@ -451,8 +451,12 @@ namespace intercept {
             return __helpers::__string_unary_object(__sqf::unary__vehiclevarname__object__ret__string, value_);
         }
 
-        void allow_crew_in_immobile(const object &value0_, bool value1_) {
-            host::functions.invoke_raw_binary(__sqf::binary__allowcrewinimmobile__object__bool__ret__nothing, value0_, value1_);
+        void allow_crew_in_immobile(const object &veh_, bool allow_) {
+            host::functions.invoke_raw_binary(__sqf::binary__allowcrewinimmobile__object__bool_array__ret__nothing, veh_, allow_);
+        }
+
+        void allow_crew_in_immobile(const object& veh_, bool broken_wheel_, bool upside_down_) {
+            host::functions.invoke_raw_binary(__sqf::binary__allowcrewinimmobile__object__bool_array__ret__nothing, veh_, {broken_wheel_, upside_down_});
         }
 
         void allow_damage(const object &value0_, bool value1_) {
@@ -535,8 +539,8 @@ namespace intercept {
             return host::functions.invoke_raw_binary(__sqf::binary__lockedcargo__object__scalar__ret__bool, value0_, value1_);
         }
 
-        void set_autonomous(const object &value0_, bool value1_) {
-            host::functions.invoke_raw_binary(__sqf::binary__setautonomous__object__bool__ret__nothing, value0_, value1_);
+        bool set_autonomous(const object &value0_, bool value1_) {
+            return host::functions.invoke_raw_binary(__sqf::binary__setautonomous__object__bool__ret__bool, value0_, value1_);
         }
 
         void set_damage(const object &value0_, float value1_, bool use_effects_) {
@@ -643,6 +647,10 @@ namespace intercept {
             return __helpers::__convert_to_vector<sqf_return_string>(host::functions.invoke_raw_unary(__sqf::unary__selectionnames__object__ret__array, object_));
         }
 
+        sqf_return_string_list selection_names(const object &object_, float lod_res_) {
+            return __helpers::__convert_to_vector<sqf_return_string>(host::functions.invoke_raw_binary(__sqf::binary__selectionnames__object__string_scalar__ret__array, object_, lod_res_));
+        }
+
         sqf_return_string_list selection_names(const object &object_, rv_selection_lods lod_) {
             game_value lod_name;
             switch (lod_) {
@@ -669,10 +677,6 @@ namespace intercept {
                     break;
             }
             return __helpers::__convert_to_vector<sqf_return_string>(host::functions.invoke_raw_binary(__sqf::binary__selectionnames__object__string_scalar__ret__array, object_, std::move(lod_name)));
-        }
-
-        sqf_return_string_list selection_names(const object &object_, float lod_index_) {
-            return __helpers::__convert_to_vector<sqf_return_string>(host::functions.invoke_raw_binary(__sqf::binary__selectionnames__object__string_scalar__ret__array, object_, lod_index_));
         }
 
         void switch_camera(const object &target_) {
@@ -1189,6 +1193,22 @@ namespace intercept {
 
         bool is_allowed_crew_in_immobile(const object& veh_) {
             return host::functions.invoke_raw_unary(__sqf::unary__isallowedcrewinimmobile__object__ret__bool, veh_);
+        }
+
+        void set_turret_optics_mode(const object &veh_, int index_) {
+            host::functions.invoke_raw_binary(__sqf::binary__setturretopticsmode__object__scalar__ret__nothing, veh_, index_);
+        }
+
+        int get_turret_optics_mode(const object &veh_) {
+            return host::functions.invoke_raw_unary(__sqf::unary__getturretopticsmode__object__ret__array, veh_);
+        }
+
+        void set_turret_optics_mode(const object &veh_, const rv_turret_path &turret_, int index_) {
+            host::functions.invoke_raw_binary(__sqf::binary__setturretopticsmode__object__array__ret__nothing, veh_, {turret_, index_});
+        }
+
+        int get_turret_optics_mode(const object &veh_, const rv_turret_path &turret_) {
+            return host::functions.invoke_raw_binary(__sqf::binary__getturretopticsmode__object__array__ret__nothing, veh_, turret_);
         }
     }  // namespace sqf
 }  // namespace intercept

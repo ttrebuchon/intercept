@@ -150,7 +150,7 @@ namespace intercept {
             return config(host::functions.invoke_raw_unary(__sqf::unary__configof__object__ret__config, obj_));
         }
 
-        game_value get_array(config config_) {
+        game_value get_array(const config &config_) {
             return host::functions.invoke_raw_unary(__sqf::unary__getarray__config__ret__array, config_);
         }
 
@@ -209,6 +209,10 @@ namespace intercept {
 
         sqf_return_string get_text_raw(const config &config_) {
             return host::functions.invoke_raw_unary(__sqf::unary__gettextraw__config__ret__string, config_);
+        }
+
+        config load_config(sqf_string_const_ref file_path_) {
+            return host::functions.invoke_raw_unary(__sqf::unary__loadconfig__string__ret__config, file_path_);
         }
 
     }  // namespace sqf

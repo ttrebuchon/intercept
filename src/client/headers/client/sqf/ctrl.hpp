@@ -96,22 +96,19 @@ namespace intercept {
             float aspect_ratio;
             float ui_scale;
             vector2 fov;
-            bool tripleHead = false;
+            float texture_quality;
+            bool triple_head;
 
-            static rv_resolution from_game_value(game_value_parameter resolution_result_) {
-                const vector2 resolution = {resolution_result_[0], resolution_result_[1]};
-                const vector2 viewport = {resolution_result_[2], resolution_result_[3]};
-                const float aspectRatio = resolution_result_[4];
-                const float uiScale = resolution_result_[5];
-
-                if (resolution_result_.size() > 6) {
-                    const vector2 fov = {resolution_result_[6], resolution_result_[7]};
-                    const bool tripleHead = resolution_result_[8];
-                    return rv_resolution{resolution, viewport, aspectRatio, uiScale, fov, tripleHead};
-                }
-
-                return rv_resolution{resolution, viewport, aspectRatio, uiScale};
-            }
+            explicit rv_resolution(const game_value& gv_)
+                : resolution(gv_[0], gv_[1]),
+                  viewport(gv_[2], gv_[3]),
+                  aspect_ratio(gv_[4]),
+                  ui_scale(gv_[5]),
+                  fov(gv_[6], gv_[7]),
+                  triple_head(gv_[8]),
+                  texture_quality(gv_[9])
+            {}
+           
         };
 
         /*ctrl_ */
@@ -406,6 +403,7 @@ namespace intercept {
 
         std::vector<int> tv_cursel(int idc_);
         std::vector<int> tv_cursel(const control &ctrl_);
+        std::vector<std::vector<int>> tv_selection(const control &ctrl_);
 
         void tv_set_color(const control &control_, const std::vector<int> &path_, const rv_color &color_);
         void tv_set_picture_color_disabled(const control &control_, const std::vector<int> &path_, const rv_color &color_);
@@ -453,6 +451,11 @@ namespace intercept {
         int cut_rsc(int layer_, sqf_string_const_ref class_, sqf_string_const_ref type_, float speed_, bool show_on_map_);
         int cut_text(sqf_string_const_ref layer_name_, sqf_string_const_ref text_, sqf_string_const_ref type_, float speed_, bool show_on_map_);
         int cut_text(int layer_, sqf_string_const_ref text_, sqf_string_const_ref type_, float speed_, bool show_on_map_);
+        
+
+        //Array in format [<string:type>, <string:effect>, <number:speed>, <boolean:showInMap>] or []
+        game_value active_title_effect_params(float title_);
+        
 
         void title_fade_out(float value_);
 
@@ -519,6 +522,7 @@ namespace intercept {
         bool cb_checked(const control &control_);
         void cb_set_checked(const control &value0_, bool value1_);
         bool create_dialog(sqf_string_const_ref dialog_name_);
+        display create_dialog(sqf_string_const_ref dialog_name_, bool force_on_top_ = false);
 
         bool is_real_time(const control &value_);
         bool is_showing(const control &value_);

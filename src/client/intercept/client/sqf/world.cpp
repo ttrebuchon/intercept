@@ -253,6 +253,10 @@ namespace intercept {
             __helpers::__empty_unary_number(__sqf::unary__setviewdistance__scalar__ret__nothing, value_);
         }
 
+        void set_pip_view_distance(float value_) {
+            __helpers::__empty_unary_number(__sqf::unary__setpipviewdistance__scalar__ret__nothing, value_);
+        }
+
         void skip_time(float value_) {
             __helpers::__empty_unary_number(__sqf::unary__skiptime__scalar__ret__nothing, value_);
         }
@@ -321,6 +325,10 @@ namespace intercept {
 
         float view_distance() {
             return __helpers::__retrieve_nular_number(__sqf::nular__viewdistance__ret__scalar);
+        }
+
+        float get_pip_view_distance() {
+            return __helpers::__retrieve_nular_number(__sqf::nular__getpipviewdistance__ret__scalar);
         }
 
         void enable_caustics(bool value_) {
@@ -409,6 +417,10 @@ namespace intercept {
 
         object nearest_object(const vector3 &pos_, float id_) {
             return host::functions.invoke_raw_binary(__sqf::binary__nearestobject__array__scalar__ret__object, pos_, id_);
+        }
+
+        sqf_return_string get_object_id(const object &obj_) {
+            return host::functions.invoke_raw_unary(__sqf::unary__getobjectid__object__ret__string, obj_);
         }
 
         std::vector<object> nearest_objects(const vector3 &pos_, sqf_string_list_const_ref types_, float radius_, bool mode_2d_) {
@@ -629,6 +641,41 @@ namespace intercept {
 
         rv_rain_parameters rain_params() {
             return rv_rain_parameters(host::functions.invoke_raw_nular(__sqf::nular__rainparams__ret__array));
+        }
+
+        std::vector<object> all_objects(int obj_type_, object_simulation_kind simulation_kind_) {
+            return __helpers::__convert_to_vector<object>(host::functions.invoke_raw_binary(__sqf::binary__allobjects__scalar__scalar__ret__array, obj_type_, (int)simulation_kind_));
+        }
+
+        std::vector<object> all_objects(int obj_type_, int simulation_kind_) {
+            return __helpers::__convert_to_vector<object>(host::functions.invoke_raw_binary(__sqf::binary__allobjects__scalar__scalar__ret__array, obj_type_, simulation_kind_));
+        }
+
+        std::vector<object> nearest_mines(const vector3 &pos_, sqf_string_list_const_ref types_, float radius_, bool sort_, bool mode_2d_) {
+            auto_array<game_value> types(types_.begin(), types_.end());
+            return __helpers::__convert_to_vector<object>(host::functions.invoke_raw_unary(__sqf::unary__nearestmines__array__ret__array, {pos_, std::move(types), radius_, sort_, mode_2d_}));
+        }
+
+        std::vector<object> nearest_mines(const vector2 &pos_, sqf_string_list_const_ref types_, float radius_, bool sort_, bool mode_2d_) {
+            auto_array<game_value> types(types_.begin(), types_.end());
+            return __helpers::__convert_to_vector<object>(host::functions.invoke_raw_unary(__sqf::unary__nearestmines__array__ret__array, {pos_, std::move(types), radius_, sort_, mode_2d_}));
+        }
+
+        rv_terrain_info get_terrain_info() {
+            return rv_terrain_info(host::functions.invoke_raw_nular(__sqf::nular__getterraininfo__ret__array));
+        }
+
+        float get_tide() {
+            auto ret = host::functions.invoke_raw_nular(__sqf::nular__getterraininfo__ret__array);
+            return ret[4];
+        }
+
+        float get_terrain_height(const vector2 &pos_) {
+            return host::functions.invoke_raw_unary(__sqf::unary__getterrainheight__array__ret__scalar, pos_);
+        }
+
+        void set_terrain_height(const std::vector<vector3> &positions_, bool adjust_objs_) {
+            host::functions.invoke_raw_unary(__sqf::unary__setterrainheight__array__ret__nothing, {positions_, adjust_objs_});
         }
     }  // namespace sqf
 }  // namespace intercept
